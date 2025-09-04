@@ -7,3 +7,16 @@
 
 // Configuration settings file format documentation can be found at:
 // https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+#include "Base.xcconfig"
+
+LOG_LEVEL = debug
+
+BUNDLE_ID_SUFFIX = .dev
+APP_DISPLAY_NAME = PicBook (Dev)
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon-Dev
+
+API_BASE_URL = https://picsum.photos
+CACHE_TTL_MINUTES = 10
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEV
