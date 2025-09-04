@@ -10,9 +10,22 @@
 		003FEAEF2E69DDD4006E417F /* PicBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PicBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		003FEB222E69EE3B006E417F /* Exceptions for "PicBook" folder in "PicBook" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 003FEAEE2E69DDD4006E417F /* PicBook */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		003FEAF12E69DDD4006E417F /* PicBook */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				003FEB222E69EE3B006E417F /* Exceptions for "PicBook" folder in "PicBook" target */,
+			);
 			path = PicBook;
 			sourceTree = "<group>";
 		};
@@ -269,7 +282,8 @@
 				DEVELOPMENT_TEAM = JTC82K5425;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				INFOPLIST_FILE = PicBook/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "PicBook (Dev)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -300,7 +314,8 @@
 				DEVELOPMENT_TEAM = JTC82K5425;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				INFOPLIST_FILE = PicBook/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "PicBook (Dev)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -397,7 +412,8 @@
 				DEVELOPMENT_TEAM = JTC82K5425;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				INFOPLIST_FILE = PicBook/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "PicBook (Dev)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
