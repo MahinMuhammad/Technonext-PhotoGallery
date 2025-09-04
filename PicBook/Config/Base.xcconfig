@@ -7,3 +7,14 @@
 
 // Configuration settings file format documentation can be found at:
 // https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+LOG_LEVEL = warning
+
+PRODUCT_BUNDLE_IDENTIFIER = com.mahin.PicBook$(BUNDLE_ID_SUFFIX)
+APP_DISPLAY_NAME = PicBook
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon
+
+API_BASE_URL = https://picsum.photos
+CACHE_TTL_MINUTES = 360
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited)
