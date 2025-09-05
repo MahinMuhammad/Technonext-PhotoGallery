@@ -20,9 +20,19 @@ struct GalleryView: View {
             ScrollView{
                 LazyVGrid(columns: columns, spacing: 12){
                     ForEach(viewModel.photos){ photo in
-                        RoundedRectangle(cornerRadius: 12)
-                            .aspectRatio(1, contentMode: .fit)
-                            .onAppear { viewModel.loadMoreIfNeeded(currentItem: photo) }
+                        
+                        ZStack(alignment: .bottomLeading) {
+                            CachedImageView(url: photo.downloadURL)
+                            
+                            if let author = photo.author {
+                                Text(author)
+                                    .font(.caption).bold().foregroundStyle(.white)
+                                    .padding(.horizontal, 8).padding(.vertical, 4)
+                                    .background(.black.opacity(0.45), in: Capsule())
+                                    .padding(8)
+                            }
+                        }
+                        .onAppear { viewModel.loadMoreIfNeeded(currentItem: photo) }
                     }
                 }
                 .padding(12)
