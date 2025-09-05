@@ -22,6 +22,7 @@ struct GalleryView: View {
                     ForEach(viewModel.photos){ photo in
                         RoundedRectangle(cornerRadius: 12)
                             .aspectRatio(1, contentMode: .fit)
+                            .onAppear { viewModel.loadMoreIfNeeded(currentItem: photo) }
                     }
                 }
                 .padding(12)
