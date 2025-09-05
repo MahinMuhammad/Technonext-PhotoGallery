@@ -35,7 +35,12 @@ final class PBAPIService: APIClient{
     public func gerenicRequest<T: Decodable>(endpoint: APIEndpoint) async throws -> T {
         let request = try createRequest(with: endpoint)
         let dataResponse: DataResponse = try await session.data(for: request)
-        return try responseHandler(dataResponse)
+        
+        #if DEV
+        print("Has Cached:", URLCache.shared.cachedResponse(for: request) != nil)
+        #endif
+        
+        return try responseHandler(dataResponse, for: request)
     }
     
     //MARK: - Helper Methods
@@ -72,11 +77,16 @@ final class PBAPIService: APIClient{
     /// Handles the DataResponse accoding the the response statusCode
     /// - Parameter dataResponse: DataResponse recieved from the network call
     /// - Returns: A Model that is decoded from the data recieved over the network call
-    private func responseHandler<T: Decodable>(_ dataResponse: DataResponse) throws -> T{
+    private func responseHandler<T: Decodable>(_ dataResponse: DataResponse, for request: URLRequest) throws -> T{
         guard let httpUrlResponse = dataResponse.response as? HTTPURLResponse else {throw APIError.invalidResponse}
         
         switch httpUrlResponse.statusCode{
         case 200..<300:
+            
+            // caching json response for success
+            let cached = CachedURLResponse(response: dataResponse.response, data: dataResponse.data)
+            URLCache.shared.storeCachedResponse(cached, for: request)
+            
             return try decoder.decode(T.self, from: dataResponse.data)
         default:
             throw APIError.invalidHTTPStatus(httpUrlResponse.statusCode)
