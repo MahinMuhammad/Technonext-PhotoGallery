@@ -5,13 +5,15 @@
 //  Created by Md. Mahinur Rahman on 9/5/25.
 //
 
-import Foundation
+import UIKit
+import Photos
 
 @MainActor
 final class GalleryViewModel: ObservableObject{
     @Published private(set) var photos: [PhotoModel] = []
     @Published private(set) var isLoading = false
     @Published var error: String?
+    @Published var alert: String?
     
     private let client: APIClient
     
@@ -59,4 +61,29 @@ final class GalleryViewModel: ObservableObject{
         }
     }
     
+    func saveImageToPhotos(_ image: UIImage) {
+        guard let data = image.jpegData(compressionQuality: 0.9) else { return }
+
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+            guard status == .authorized else { return }
+            PHPhotoLibrary.shared().performChanges({
+                let req  = PHAssetCreationRequest.forAsset()
+                let opts = PHAssetResourceCreationOptions()
+                opts.uniformTypeIdentifier = "public.jpeg"   // force JPEG
+                req.addResource(with: .photo, data: data, options: opts)
+            }, completionHandler: { [weak self] success, error  in
+                guard let self else {return}
+                if let error{
+                    print(error)
+                    DispatchQueue.main.async{
+                        self.error = "Something went wrong"
+                    }
+                }else if success{
+                    DispatchQueue.main.async{
+                        self.alert = "Photo Saved"
+                    }
+                }
+            })
+        }
+    }
 }
