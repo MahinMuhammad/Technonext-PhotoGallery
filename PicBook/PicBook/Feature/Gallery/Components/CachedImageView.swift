@@ -9,12 +9,13 @@ import SwiftUI
 import Combine
 
 struct CachedImageView: View {
-    let url: URL?
-
+    
     @State private var image: UIImage?
     @State private var cancellable: AnyCancellable?
     
-    let imageService: PBImageProtocol = PBImageService()
+    let url: URL?
+    private let imageService: PBImageProtocol = PBImageService()
+    let onTap: (UIImage?) -> Void
     
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
@@ -47,6 +48,9 @@ struct CachedImageView: View {
                     .imagePublisher(from: url)
                     .receive(on: RunLoop.main)
                     .sink { image = $0 }
+            }
+            .onTapGesture {
+                onTap(image)
             }
     }
 }
