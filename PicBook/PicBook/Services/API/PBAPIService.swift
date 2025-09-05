@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class PBAPIService{
+final class PBAPIService: APIClient{
     private let baseURL = AppConfigService.apiBaseURL
     private var session: URLSession
     private let decoder = JSONDecoder()
