@@ -50,14 +50,46 @@ struct GalleryView: View {
                 
                 // Fullscreen overlay for image
                 if let img = fullImage {
-                    Color.black.opacity(0.95)
-                        .ignoresSafeArea()
-                        .transition(.opacity)
-                        .onTapGesture { withAnimation { fullImage = nil } }
-                    
-                    FullCoverImageView(image: img)
-                        .transition(.scale.combined(with: .opacity))
-                        .zIndex(1)
+                    ZStack{
+                        Color.black.opacity(0.95)
+                            .ignoresSafeArea()
+                            .transition(.opacity)
+                            .onTapGesture { withAnimation { fullImage = nil } }
+                        
+                        FullCoverImageView(image: img)
+                            .transition(.scale.combined(with: .opacity))
+                            .zIndex(1)
+                    }
+                    .overlay(alignment: .bottom){
+                        HStack{
+                            Button{
+                                
+                            }label: {
+                                HStack{
+                                    Image(systemName: "bookmark")
+                                        .resizable()
+                                        .frame(width: 23, height: 23)
+                                    Text("Save")
+                                        .font(.title2)
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            Button{
+                                
+                            }label: {
+                                Image(systemName: "arrowshape.turn.up.right")
+                                    .resizable()
+                                    .frame(width: 23, height: 23)
+                                Text("Share")
+                                    .font(.title2)
+                            }
+                        }
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 30)
+                        .padding(.bottom, 30)
+                    }
                 }
                 
             }
