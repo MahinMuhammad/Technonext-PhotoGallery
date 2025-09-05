@@ -11,7 +11,7 @@ import SwiftUI
 struct PicBookApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            GalleryView()
         }
     }
 }
