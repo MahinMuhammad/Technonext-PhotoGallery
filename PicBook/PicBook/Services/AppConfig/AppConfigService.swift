@@ -17,4 +17,13 @@ enum AppConfigService {
         }
         return url
     }
+    
+    static var appEnv: String {
+        guard
+            let raw = Bundle.main.object(forInfoDictionaryKey: "APP_ENV") as? String
+        else {
+            fatalError("Missing or invalid APP_ENV in Info.plist")
+        }
+        return raw
+    }
 }
