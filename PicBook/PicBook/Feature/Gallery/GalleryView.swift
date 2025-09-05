@@ -63,7 +63,7 @@ struct GalleryView: View {
                     .overlay(alignment: .bottom){
                         HStack{
                             Button{
-                                
+                                viewModel.saveImageToPhotos(img)
                             }label: {
                                 HStack{
                                     Image(systemName: "bookmark")
@@ -98,6 +98,10 @@ struct GalleryView: View {
                    isPresented: .constant(viewModel.error != nil),
                    actions: { Button("OK") { viewModel.error = nil } },
                    message: { Text(viewModel.error ?? "") })
+            .alert("Alert",
+                   isPresented: .constant(viewModel.alert != nil),
+                   actions: { Button("OK") { viewModel.alert = nil } },
+                   message: { Text(viewModel.alert ?? "") })
         }
     }
 }
