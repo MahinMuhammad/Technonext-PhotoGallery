@@ -10,6 +10,7 @@ import SwiftUI
 struct GalleryView: View {
     @StateObject private var viewModel = GalleryViewModel()
     @State private var fullImage: UIImage?
+    @State private var showShare = false
     
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -77,7 +78,7 @@ struct GalleryView: View {
                             Spacer()
                             
                             Button{
-                                
+                                showShare = true
                             }label: {
                                 Image(systemName: "arrowshape.turn.up.right")
                                     .resizable()
@@ -89,6 +90,9 @@ struct GalleryView: View {
                         .foregroundStyle(.white)
                         .padding(.horizontal, 30)
                         .padding(.bottom, 30)
+                    }
+                    .sheet(isPresented: $showShare) {
+                        ShareSheet(items: [img])
                     }
                 }
                 
