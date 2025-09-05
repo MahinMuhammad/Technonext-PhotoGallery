@@ -30,6 +30,16 @@ final class GalleryViewModel: ObservableObject{
         loadTask = Task{await loadPage()}
     }
     
+    func loadMoreIfNeeded(currentItem: PhotoModel?) {
+        guard let currentItem, hasMore, !isLoading else { return }
+        guard let index = photos.firstIndex(where: { $0.id == currentItem.id }) else { return }
+        
+        let thresholdIndex = max(0, photos.count - 4) // last 2 rows (2 cols * 2 rows = 4)
+        if index >= thresholdIndex {
+            Task { await loadPage() }
+        }
+    }
+    
     private func loadPage() async {
         guard !isLoading, hasMore else { return }
         isLoading = true; defer { isLoading = false }
