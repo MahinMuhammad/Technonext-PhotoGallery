@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 
 final class GalleryViewModel: ObservableObject{
     @Published private(set) var photos: [PhotoModel] = []
@@ -14,7 +13,6 @@ final class GalleryViewModel: ObservableObject{
     @Published var error: String?
     
     private let client: APIClient
-    private var cancellables = Set<AnyCancellable>()
     
     private var page = 1
     private let limit = 15
@@ -22,30 +20,23 @@ final class GalleryViewModel: ObservableObject{
     
     init(client: APIClient = PBAPIService()) { self.client = client }
     
-    private func loadPage() {
+    func loadPage() async {
         guard !isLoading, hasMore else { return }
-        isLoading = true
+        isLoading = true; defer { isLoading = false }
         
-        let endpoint = APIEndpoint.getList(page: page, limit: limit)
-        
-        client.requestPublisher(endpoint: endpoint)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self else { return }
-                self.isLoading = false
-                if case .failure(let err) = completion { self.error = err.localizedDescription }
-            } receiveValue: { [weak self] (newPage: [PhotoModel]) in
-                guard let self else { return }
-                let existing = Set(self.photos.map(\.id))
-                let unique = newPage.filter { !existing.contains($0.id) }
-                
-                if self.page == 1 { self.photos = unique }
-                else { self.photos.append(contentsOf: unique) }
-                
-                self.hasMore = newPage.count == self.limit
-                if self.hasMore { self.page += 1 }
-            }
-            .store(in: &cancellables)
+        do {
+            let endpoint = APIEndpoint.getList(page: page, limit: limit)
+            let newPage: [PhotoModel] = try await client.gerenicRequest(endpoint: endpoint)
+            let existing = Set(photos.map(\.id))
+            let unique = newPage.filter { !existing.contains($0.id) }
+            
+            if page == 1 { photos = unique } else { photos.append(contentsOf: unique) }
+            
+            hasMore = newPage.count == limit
+            if hasMore { page += 1 }
+        } catch {
+            self.error = error.localizedDescription
+        }
     }
     
 }
