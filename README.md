@@ -34,4 +34,4 @@ Purpose: production builds/archives <br>
 Display name: PicBook <br>
 
 All environments currently point to the same Picsum endpoint (https://picsum.photos). The separation exists to enable easy switching to distinct backends later (no code changes).
-Differences across environments are expressed via build settings and xcconfig files (e.g., display name, bundle ID, logging verbosity, and cache TTL).
+Differences across environments are expressed via build settings and xcconfig files (e.g., display name, bundle ID and logging verbosity).
