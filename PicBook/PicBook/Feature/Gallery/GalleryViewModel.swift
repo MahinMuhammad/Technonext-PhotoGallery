@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 final class GalleryViewModel: ObservableObject{
     @Published private(set) var photos: [PhotoModel] = []
     @Published private(set) var isLoading = false
@@ -18,9 +19,18 @@ final class GalleryViewModel: ObservableObject{
     private let limit = 15
     private var hasMore = true
     
+    private var loadTask: Task<Void, Never>?
+    
     init(client: APIClient = PBAPIService()) { self.client = client }
     
-    func loadPage() async {
+    func refresh() {
+        page = 1; hasMore = true
+        photos.removeAll(); error = nil
+        loadTask?.cancel()
+        loadTask = Task{await loadPage()}
+    }
+    
+    private func loadPage() async {
         guard !isLoading, hasMore else { return }
         isLoading = true; defer { isLoading = false }
         
