@@ -9,10 +9,23 @@ import Foundation
 
 final class PBAPIService{
     private let baseURL = AppConfigService.apiBaseURL
-    private var session = URLSession.shared
+    private var session: URLSession
     private let decoder = JSONDecoder()
     
     typealias DataResponse = (data: Data, response: URLResponse)
+    
+    init(){
+        // Configure a cache (e.g., 20 MB memory, 100 MB disk)
+        let cache = URLCache(memoryCapacity: 20 * 1024 * 1024,
+                             diskCapacity: 100 * 1024 * 1024,
+                             diskPath: "PBAPICache")
+        URLCache.shared = cache
+        
+        let config = URLSessionConfiguration.default
+        config.requestCachePolicy = .returnCacheDataElseLoad
+        config.urlCache = cache
+        self.session = URLSession(configuration: config)
+    }
     
     //MARK: - Network Call Methods
     
@@ -37,6 +50,7 @@ final class PBAPIService{
         }
         var request = URLRequest(url: url)
         request.httpMethod = endpoint.method.rawValue
+        request.cachePolicy = .returnCacheDataElseLoad
         if let headers = endpoint.headers{
             request.allHTTPHeaderFields = headers
         }
