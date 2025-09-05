@@ -18,7 +18,7 @@ final class PBAPIService: APIClient{
         // Configure a cache (e.g., 20 MB memory, 100 MB disk)
         let cache = URLCache(memoryCapacity: 20 * 1024 * 1024,
                              diskCapacity: 100 * 1024 * 1024,
-                             diskPath: "PBAPICache")
+                             diskPath: "PBAPICache\(AppConfigService.appEnv)")
         URLCache.shared = cache
         
         let config = URLSessionConfiguration.default
